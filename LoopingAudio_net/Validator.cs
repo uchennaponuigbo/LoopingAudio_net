@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace LoopingAudio_net
@@ -16,6 +17,11 @@ namespace LoopingAudio_net
                 return false;
             }
             return true;
+        }
+
+        public static bool IsGreaterThan(double min, double max = 3600)
+        {
+            return min > max;
         }
 
         public static bool IsWithinRange(TextBox textBox, uint min = 0, uint max = 100)
@@ -55,17 +61,8 @@ namespace LoopingAudio_net
                 return true;
         }
 
-        public static bool IsNotEmpty(TextBox textBox)
-        {
-            if (textBox.Text == String.Empty)
-            {
-                MessageBox.Show($"{textBox.Tag} cannot be empty.", "Empty Textbox");
-                textBox.Focus();
-                return false;
-            }
-            else
-                return true;
-        }
+        public static bool IsEmpty(TextBox textBox) => textBox.Text == String.Empty;
+        
 
         public static bool IsSelected(ListBox listBox)
         {
@@ -76,6 +73,34 @@ namespace LoopingAudio_net
             }
             else
                 return true;
+        }
+
+        public static bool IsCorrectFormat(TextBox textBox, params string[] format)
+        {
+            bool correct = false;
+            for (int i = 0; i < format.Length; i++)
+            {
+                if (TimeSpan.TryParseExact(textBox.Text, format[i], CultureInfo.InvariantCulture, out _))
+                {
+                    correct = true;
+                    break;
+                }
+            }
+
+            return correct;
+        }
+
+        public static bool IsCorrectFormat(TextBox textBox, string format)
+        {
+            return TimeSpan.TryParseExact(textBox.Text, format, CultureInfo.InvariantCulture, out _);
+        }
+
+        public static bool IsMinLessThanMax(TextBox txtMin, TextBox txtMax)
+        {
+            int min = (int)TimeSpan.Parse(txtMin.Text).TotalSeconds;
+            int max = (int)TimeSpan.Parse(txtMax.Text).TotalSeconds;
+
+            return min < max;
         }
     }
 }

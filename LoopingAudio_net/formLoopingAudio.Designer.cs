@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.btnPlay = new System.Windows.Forms.Button();
-            this.btnPause = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +53,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.volumeBar = new System.Windows.Forms.TrackBar();
             this.lblVolumeValue = new System.Windows.Forms.Label();
+            this.btnPlayOrPause = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.musicBar)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -64,32 +63,12 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(30, 58);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(291, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(199, 38);
+            this.label1.Size = new System.Drawing.Size(183, 36);
             this.label1.TabIndex = 0;
             this.label1.Text = "Now Playing";
-            // 
-            // btnPlay
-            // 
-            this.btnPlay.Location = new System.Drawing.Point(267, 368);
-            this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(75, 34);
-            this.btnPlay.TabIndex = 1;
-            this.btnPlay.Text = "Play";
-            this.btnPlay.UseVisualStyleBackColor = true;
-            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
-            // 
-            // btnPause
-            // 
-            this.btnPause.Location = new System.Drawing.Point(348, 368);
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(75, 34);
-            this.btnPause.TabIndex = 2;
-            this.btnPause.Text = "Pause";
-            this.btnPause.UseVisualStyleBackColor = true;
-            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
             // menuStrip1
             // 
@@ -98,7 +77,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(779, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(779, 28);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -134,6 +113,7 @@
             // musicBar
             // 
             this.musicBar.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.musicBar.LargeChange = 10;
             this.musicBar.Location = new System.Drawing.Point(6, 21);
             this.musicBar.Maximum = 3600;
             this.musicBar.Name = "musicBar";
@@ -144,15 +124,16 @@
             // lblSongName
             // 
             this.lblSongName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSongName.Location = new System.Drawing.Point(259, 58);
+            this.lblSongName.Location = new System.Drawing.Point(43, 82);
             this.lblSongName.Name = "lblSongName";
-            this.lblSongName.Size = new System.Drawing.Size(475, 89);
+            this.lblSongName.Size = new System.Drawing.Size(697, 73);
             this.lblSongName.TabIndex = 5;
             this.lblSongName.Text = "Songname.mp3";
+            this.lblSongName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnClearSong
             // 
-            this.btnClearSong.Location = new System.Drawing.Point(429, 368);
+            this.btnClearSong.Location = new System.Drawing.Point(392, 368);
             this.btnClearSong.Name = "btnClearSong";
             this.btnClearSong.Size = new System.Drawing.Size(93, 34);
             this.btnClearSong.TabIndex = 6;
@@ -248,6 +229,7 @@
             this.btnSetLoopPoints.TabIndex = 16;
             this.btnSetLoopPoints.Text = "Set";
             this.btnSetLoopPoints.UseVisualStyleBackColor = true;
+            this.btnSetLoopPoints.Click += new System.EventHandler(this.btnSetLoopPoints_Click);
             // 
             // btnClearLoopPoints
             // 
@@ -298,6 +280,7 @@
             this.volumeBar.TabIndex = 21;
             this.volumeBar.TickFrequency = 10;
             this.volumeBar.Value = 5;
+            this.volumeBar.KeyUp += new System.Windows.Forms.KeyEventHandler(this.volumeBar_KeyUp);
             this.volumeBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.volumeBar_MouseUp);
             // 
             // lblVolumeValue
@@ -309,12 +292,24 @@
             this.lblVolumeValue.Size = new System.Drawing.Size(18, 20);
             this.lblVolumeValue.TabIndex = 22;
             this.lblVolumeValue.Text = "5";
+            this.lblVolumeValue.TextChanged += new System.EventHandler(this.lblVolumeValue_TextChanged);
+            // 
+            // btnPlayOrPause
+            // 
+            this.btnPlayOrPause.Location = new System.Drawing.Point(298, 368);
+            this.btnPlayOrPause.Name = "btnPlayOrPause";
+            this.btnPlayOrPause.Size = new System.Drawing.Size(75, 34);
+            this.btnPlayOrPause.TabIndex = 23;
+            this.btnPlayOrPause.Text = "Play";
+            this.btnPlayOrPause.UseVisualStyleBackColor = true;
+            this.btnPlayOrPause.Click += new System.EventHandler(this.btnPlayOrPause_Click);
             // 
             // formLoopingAudio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 423);
+            this.Controls.Add(this.btnPlayOrPause);
             this.Controls.Add(this.lblVolumeValue);
             this.Controls.Add(this.volumeBar);
             this.Controls.Add(this.groupBox1);
@@ -330,8 +325,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnClearSong);
             this.Controls.Add(this.lblSongName);
-            this.Controls.Add(this.btnPause);
-            this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -352,8 +345,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnPlay;
-        private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openTrackToolStripMenuItem;
@@ -378,6 +369,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TrackBar volumeBar;
         private System.Windows.Forms.Label lblVolumeValue;
+        private System.Windows.Forms.Button btnPlayOrPause;
     }
 }
 

@@ -1,0 +1,3 @@
+https://wpf-tutorial.com/audio-video/playing-audio/
+https://stackoverflow.com/questions/8109358/passing-variable-with-routedeventargs
+https://stackoverflow.com/questions/24289297/how-to-make-trackbar-works-while-media-is-playing
