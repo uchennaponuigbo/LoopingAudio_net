@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,6 +55,7 @@
             this.volumeBar = new System.Windows.Forms.TrackBar();
             this.lblVolumeValue = new System.Windows.Forms.Label();
             this.btnPlayOrPause = new System.Windows.Forms.Button();
+            this.toolTipMusic = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.musicBar)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -63,10 +65,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(291, 38);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(330, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(183, 36);
+            this.label1.Size = new System.Drawing.Size(120, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Now Playing";
             // 
@@ -94,21 +96,21 @@
             // openTrackToolStripMenuItem
             // 
             this.openTrackToolStripMenuItem.Name = "openTrackToolStripMenuItem";
-            this.openTrackToolStripMenuItem.Size = new System.Drawing.Size(299, 26);
+            this.openTrackToolStripMenuItem.Size = new System.Drawing.Size(307, 26);
             this.openTrackToolStripMenuItem.Text = "Open Track...";
             this.openTrackToolStripMenuItem.Click += new System.EventHandler(this.openTrackToolStripMenuItem_Click);
             // 
             // openFromDatabaseToolStripMenuItem
             // 
             this.openFromDatabaseToolStripMenuItem.Name = "openFromDatabaseToolStripMenuItem";
-            this.openFromDatabaseToolStripMenuItem.Size = new System.Drawing.Size(299, 26);
+            this.openFromDatabaseToolStripMenuItem.Size = new System.Drawing.Size(307, 26);
             this.openFromDatabaseToolStripMenuItem.Text = "Open From Database...";
             // 
             // saveCurrentTrackToDatabseToolStripMenuItem
             // 
             this.saveCurrentTrackToDatabseToolStripMenuItem.Name = "saveCurrentTrackToDatabseToolStripMenuItem";
-            this.saveCurrentTrackToDatabseToolStripMenuItem.Size = new System.Drawing.Size(299, 26);
-            this.saveCurrentTrackToDatabseToolStripMenuItem.Text = "Save Current Track to Databse...";
+            this.saveCurrentTrackToDatabseToolStripMenuItem.Size = new System.Drawing.Size(307, 26);
+            this.saveCurrentTrackToDatabseToolStripMenuItem.Text = "Save Current Track to Database...";
             // 
             // musicBar
             // 
@@ -119,21 +121,24 @@
             this.musicBar.Name = "musicBar";
             this.musicBar.Size = new System.Drawing.Size(722, 56);
             this.musicBar.TabIndex = 4;
+            this.musicBar.TickFrequency = 10;
+            this.musicBar.Scroll += new System.EventHandler(this.musicBar_Scroll);
+            this.musicBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.musicBar_MouseDown);
             this.musicBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.musicBar_MouseUp);
             // 
             // lblSongName
             // 
-            this.lblSongName.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSongName.Location = new System.Drawing.Point(43, 82);
+            this.lblSongName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSongName.Location = new System.Drawing.Point(25, 53);
             this.lblSongName.Name = "lblSongName";
-            this.lblSongName.Size = new System.Drawing.Size(697, 73);
+            this.lblSongName.Size = new System.Drawing.Size(730, 82);
             this.lblSongName.TabIndex = 5;
-            this.lblSongName.Text = "Songname.mp3";
+            this.lblSongName.Text = "(mp3 Song Here)";
             this.lblSongName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnClearSong
             // 
-            this.btnClearSong.Location = new System.Drawing.Point(392, 368);
+            this.btnClearSong.Location = new System.Drawing.Point(378, 140);
             this.btnClearSong.Name = "btnClearSong";
             this.btnClearSong.Size = new System.Drawing.Size(93, 34);
             this.btnClearSong.TabIndex = 6;
@@ -165,7 +170,7 @@
             // 
             this.lblEndTime.AutoSize = true;
             this.lblEndTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEndTime.Location = new System.Drawing.Point(657, 77);
+            this.lblEndTime.Location = new System.Drawing.Point(657, 78);
             this.lblEndTime.Name = "lblEndTime";
             this.lblEndTime.Size = new System.Drawing.Size(86, 32);
             this.lblEndTime.TabIndex = 9;
@@ -174,76 +179,80 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(93, 181);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(47, 306);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 16);
+            this.label2.Size = new System.Drawing.Size(115, 18);
             this.label2.TabIndex = 10;
             this.label2.Text = "Loop Start Point";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(94, 209);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(495, 309);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(98, 16);
+            this.label3.Size = new System.Drawing.Size(110, 18);
             this.label3.TabIndex = 11;
             this.label3.Text = "Loop End Point";
             // 
             // lblLoopStartPoint
             // 
             this.lblLoopStartPoint.AutoSize = true;
-            this.lblLoopStartPoint.Location = new System.Drawing.Point(295, 181);
+            this.lblLoopStartPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopStartPoint.Location = new System.Drawing.Point(142, 147);
             this.lblLoopStartPoint.Name = "lblLoopStartPoint";
-            this.lblLoopStartPoint.Size = new System.Drawing.Size(38, 16);
+            this.lblLoopStartPoint.Size = new System.Drawing.Size(62, 25);
             this.lblLoopStartPoint.TabIndex = 12;
             this.lblLoopStartPoint.Text = "00:00";
             // 
             // lblLoopEndPoint
             // 
             this.lblLoopEndPoint.AutoSize = true;
-            this.lblLoopEndPoint.Location = new System.Drawing.Point(295, 209);
+            this.lblLoopEndPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopEndPoint.Location = new System.Drawing.Point(583, 147);
             this.lblLoopEndPoint.Name = "lblLoopEndPoint";
-            this.lblLoopEndPoint.Size = new System.Drawing.Size(38, 16);
+            this.lblLoopEndPoint.Size = new System.Drawing.Size(62, 25);
             this.lblLoopEndPoint.TabIndex = 13;
             this.lblLoopEndPoint.Text = "59:59";
             // 
             // txtLoopStartPoint
             // 
-            this.txtLoopStartPoint.Location = new System.Drawing.Point(208, 174);
+            this.txtLoopStartPoint.Location = new System.Drawing.Point(168, 303);
             this.txtLoopStartPoint.Name = "txtLoopStartPoint";
             this.txtLoopStartPoint.Size = new System.Drawing.Size(75, 22);
             this.txtLoopStartPoint.TabIndex = 14;
             // 
             // txtLoopEndPoint
             // 
-            this.txtLoopEndPoint.Location = new System.Drawing.Point(208, 203);
+            this.txtLoopEndPoint.Location = new System.Drawing.Point(617, 306);
             this.txtLoopEndPoint.Name = "txtLoopEndPoint";
             this.txtLoopEndPoint.Size = new System.Drawing.Size(75, 22);
             this.txtLoopEndPoint.TabIndex = 15;
             // 
             // btnSetLoopPoints
             // 
-            this.btnSetLoopPoints.Location = new System.Drawing.Point(348, 181);
+            this.btnSetLoopPoints.Location = new System.Drawing.Point(287, 319);
             this.btnSetLoopPoints.Name = "btnSetLoopPoints";
-            this.btnSetLoopPoints.Size = new System.Drawing.Size(75, 23);
+            this.btnSetLoopPoints.Size = new System.Drawing.Size(82, 37);
             this.btnSetLoopPoints.TabIndex = 16;
-            this.btnSetLoopPoints.Text = "Set";
+            this.btnSetLoopPoints.Text = "Set Loops";
             this.btnSetLoopPoints.UseVisualStyleBackColor = true;
             this.btnSetLoopPoints.Click += new System.EventHandler(this.btnSetLoopPoints_Click);
             // 
             // btnClearLoopPoints
             // 
-            this.btnClearLoopPoints.Location = new System.Drawing.Point(348, 211);
+            this.btnClearLoopPoints.Location = new System.Drawing.Point(378, 314);
             this.btnClearLoopPoints.Name = "btnClearLoopPoints";
-            this.btnClearLoopPoints.Size = new System.Drawing.Size(75, 23);
+            this.btnClearLoopPoints.Size = new System.Drawing.Size(90, 47);
             this.btnClearLoopPoints.TabIndex = 17;
-            this.btnClearLoopPoints.Text = "Clear";
+            this.btnClearLoopPoints.Text = "Clear Loop Points";
             this.btnClearLoopPoints.UseVisualStyleBackColor = true;
             this.btnClearLoopPoints.Click += new System.EventHandler(this.btnClearLoopPoints_Click);
             // 
             // btnTimestamp
             // 
-            this.btnTimestamp.Location = new System.Drawing.Point(465, 180);
+            this.btnTimestamp.Location = new System.Drawing.Point(18, 355);
             this.btnTimestamp.Name = "btnTimestamp";
             this.btnTimestamp.Size = new System.Drawing.Size(92, 45);
             this.btnTimestamp.TabIndex = 18;
@@ -253,9 +262,9 @@
             // 
             // txtTimestamps
             // 
-            this.txtTimestamps.Location = new System.Drawing.Point(597, 181);
+            this.txtTimestamps.Location = new System.Drawing.Point(129, 366);
             this.txtTimestamps.Name = "txtTimestamps";
-            this.txtTimestamps.Size = new System.Drawing.Size(100, 22);
+            this.txtTimestamps.Size = new System.Drawing.Size(75, 22);
             this.txtTimestamps.TabIndex = 19;
             // 
             // groupBox1
@@ -264,7 +273,7 @@
             this.groupBox1.Controls.Add(this.lblStartTime);
             this.groupBox1.Controls.Add(this.lblCurrentTime);
             this.groupBox1.Controls.Add(this.lblEndTime);
-            this.groupBox1.Location = new System.Drawing.Point(12, 240);
+            this.groupBox1.Location = new System.Drawing.Point(12, 175);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(749, 122);
             this.groupBox1.TabIndex = 20;
@@ -274,12 +283,13 @@
             // 
             this.volumeBar.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.volumeBar.LargeChange = 2;
-            this.volumeBar.Location = new System.Drawing.Point(62, 368);
+            this.volumeBar.Location = new System.Drawing.Point(574, 344);
             this.volumeBar.Name = "volumeBar";
             this.volumeBar.Size = new System.Drawing.Size(181, 56);
             this.volumeBar.TabIndex = 21;
             this.volumeBar.TickFrequency = 10;
             this.volumeBar.Value = 5;
+            this.volumeBar.Scroll += new System.EventHandler(this.volumeBar_Scroll);
             this.volumeBar.KeyUp += new System.Windows.Forms.KeyEventHandler(this.volumeBar_KeyUp);
             this.volumeBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.volumeBar_MouseUp);
             // 
@@ -287,16 +297,17 @@
             // 
             this.lblVolumeValue.AutoSize = true;
             this.lblVolumeValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVolumeValue.Location = new System.Drawing.Point(21, 386);
+            this.lblVolumeValue.Location = new System.Drawing.Point(537, 355);
             this.lblVolumeValue.Name = "lblVolumeValue";
             this.lblVolumeValue.Size = new System.Drawing.Size(18, 20);
             this.lblVolumeValue.TabIndex = 22;
             this.lblVolumeValue.Text = "5";
             this.lblVolumeValue.TextChanged += new System.EventHandler(this.lblVolumeValue_TextChanged);
+            this.lblVolumeValue.Click += new System.EventHandler(this.lblVolumeValue_Click);
             // 
             // btnPlayOrPause
             // 
-            this.btnPlayOrPause.Location = new System.Drawing.Point(298, 368);
+            this.btnPlayOrPause.Location = new System.Drawing.Point(294, 140);
             this.btnPlayOrPause.Name = "btnPlayOrPause";
             this.btnPlayOrPause.Size = new System.Drawing.Size(75, 34);
             this.btnPlayOrPause.TabIndex = 23;
@@ -304,15 +315,23 @@
             this.btnPlayOrPause.UseVisualStyleBackColor = true;
             this.btnPlayOrPause.Click += new System.EventHandler(this.btnPlayOrPause_Click);
             // 
+            // toolTipMusic
+            // 
+            this.toolTipMusic.AutoPopDelay = 500;
+            this.toolTipMusic.InitialDelay = 500;
+            this.toolTipMusic.ReshowDelay = 100;
+            // 
             // formLoopingAudio
             // 
+            this.AcceptButton = this.btnPlayOrPause;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(779, 423);
+            this.ClientSize = new System.Drawing.Size(779, 410);
             this.Controls.Add(this.btnPlayOrPause);
             this.Controls.Add(this.lblVolumeValue);
             this.Controls.Add(this.volumeBar);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.lblLoopStartPoint);
             this.Controls.Add(this.txtTimestamps);
             this.Controls.Add(this.btnTimestamp);
             this.Controls.Add(this.btnClearLoopPoints);
@@ -320,7 +339,6 @@
             this.Controls.Add(this.txtLoopEndPoint);
             this.Controls.Add(this.txtLoopStartPoint);
             this.Controls.Add(this.lblLoopEndPoint);
-            this.Controls.Add(this.lblLoopStartPoint);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnClearSong);
@@ -370,6 +388,7 @@
         private System.Windows.Forms.TrackBar volumeBar;
         private System.Windows.Forms.Label lblVolumeValue;
         private System.Windows.Forms.Button btnPlayOrPause;
+        private System.Windows.Forms.ToolTip toolTipMusic;
     }
 }
 

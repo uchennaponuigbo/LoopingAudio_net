@@ -95,12 +95,14 @@ namespace LoopingAudio_net
             return TimeSpan.TryParseExact(textBox.Text, format, CultureInfo.InvariantCulture, out _);
         }
 
-        public static bool IsMinLessThanMax(TextBox txtMin, TextBox txtMax)
+        public static bool IsMinLessThanMax(int min, int max)
         {
-            int min = (int)TimeSpan.Parse(txtMin.Text).TotalSeconds;
-            int max = (int)TimeSpan.Parse(txtMax.Text).TotalSeconds;
-
             return min < max;
+        }
+
+        public static bool IsGreaterThanInterval(int min, int max, int interval)
+        {
+            return (max - min) >= interval;
         }
     }
 }
