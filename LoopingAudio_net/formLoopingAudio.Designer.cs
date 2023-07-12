@@ -123,8 +123,11 @@
             this.musicBar.TabIndex = 4;
             this.musicBar.TickFrequency = 10;
             this.musicBar.Scroll += new System.EventHandler(this.musicBar_Scroll);
+            this.musicBar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.musicBar_KeyDown);
+            this.musicBar.KeyUp += new System.Windows.Forms.KeyEventHandler(this.musicBar_KeyUp);
             this.musicBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.musicBar_MouseDown);
             this.musicBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.musicBar_MouseUp);
+            this.musicBar.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.musicBar_PreviewKeyDown);
             // 
             // lblSongName
             // 
@@ -190,7 +193,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(495, 309);
+            this.label3.Location = new System.Drawing.Point(495, 306);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(110, 18);
             this.label3.TabIndex = 11;
@@ -199,40 +202,42 @@
             // lblLoopStartPoint
             // 
             this.lblLoopStartPoint.AutoSize = true;
-            this.lblLoopStartPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopStartPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoopStartPoint.Location = new System.Drawing.Point(142, 147);
             this.lblLoopStartPoint.Name = "lblLoopStartPoint";
-            this.lblLoopStartPoint.Size = new System.Drawing.Size(62, 25);
+            this.lblLoopStartPoint.Size = new System.Drawing.Size(71, 29);
             this.lblLoopStartPoint.TabIndex = 12;
             this.lblLoopStartPoint.Text = "00:00";
             // 
             // lblLoopEndPoint
             // 
             this.lblLoopEndPoint.AutoSize = true;
-            this.lblLoopEndPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopEndPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoopEndPoint.Location = new System.Drawing.Point(583, 147);
             this.lblLoopEndPoint.Name = "lblLoopEndPoint";
-            this.lblLoopEndPoint.Size = new System.Drawing.Size(62, 25);
+            this.lblLoopEndPoint.Size = new System.Drawing.Size(71, 29);
             this.lblLoopEndPoint.TabIndex = 13;
             this.lblLoopEndPoint.Text = "59:59";
             // 
             // txtLoopStartPoint
             // 
+            this.txtLoopStartPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLoopStartPoint.Location = new System.Drawing.Point(168, 303);
             this.txtLoopStartPoint.Name = "txtLoopStartPoint";
-            this.txtLoopStartPoint.Size = new System.Drawing.Size(75, 22);
+            this.txtLoopStartPoint.Size = new System.Drawing.Size(75, 27);
             this.txtLoopStartPoint.TabIndex = 14;
             // 
             // txtLoopEndPoint
             // 
-            this.txtLoopEndPoint.Location = new System.Drawing.Point(617, 306);
+            this.txtLoopEndPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLoopEndPoint.Location = new System.Drawing.Point(611, 302);
             this.txtLoopEndPoint.Name = "txtLoopEndPoint";
-            this.txtLoopEndPoint.Size = new System.Drawing.Size(75, 22);
+            this.txtLoopEndPoint.Size = new System.Drawing.Size(75, 27);
             this.txtLoopEndPoint.TabIndex = 15;
             // 
             // btnSetLoopPoints
             // 
-            this.btnSetLoopPoints.Location = new System.Drawing.Point(287, 319);
+            this.btnSetLoopPoints.Location = new System.Drawing.Point(287, 324);
             this.btnSetLoopPoints.Name = "btnSetLoopPoints";
             this.btnSetLoopPoints.Size = new System.Drawing.Size(82, 37);
             this.btnSetLoopPoints.TabIndex = 16;
@@ -242,7 +247,7 @@
             // 
             // btnClearLoopPoints
             // 
-            this.btnClearLoopPoints.Location = new System.Drawing.Point(378, 314);
+            this.btnClearLoopPoints.Location = new System.Drawing.Point(381, 319);
             this.btnClearLoopPoints.Name = "btnClearLoopPoints";
             this.btnClearLoopPoints.Size = new System.Drawing.Size(90, 47);
             this.btnClearLoopPoints.TabIndex = 17;
@@ -262,9 +267,10 @@
             // 
             // txtTimestamps
             // 
+            this.txtTimestamps.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTimestamps.Location = new System.Drawing.Point(129, 366);
             this.txtTimestamps.Name = "txtTimestamps";
-            this.txtTimestamps.Size = new System.Drawing.Size(75, 22);
+            this.txtTimestamps.Size = new System.Drawing.Size(75, 27);
             this.txtTimestamps.TabIndex = 19;
             // 
             // groupBox1
@@ -290,8 +296,10 @@
             this.volumeBar.TickFrequency = 10;
             this.volumeBar.Value = 5;
             this.volumeBar.Scroll += new System.EventHandler(this.volumeBar_Scroll);
+            this.volumeBar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.volumeBar_KeyDown);
             this.volumeBar.KeyUp += new System.Windows.Forms.KeyEventHandler(this.volumeBar_KeyUp);
             this.volumeBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.volumeBar_MouseUp);
+            this.volumeBar.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.volumeBar_PreviewKeyDown);
             // 
             // lblVolumeValue
             // 
@@ -303,7 +311,6 @@
             this.lblVolumeValue.TabIndex = 22;
             this.lblVolumeValue.Text = "5";
             this.lblVolumeValue.TextChanged += new System.EventHandler(this.lblVolumeValue_TextChanged);
-            this.lblVolumeValue.Click += new System.EventHandler(this.lblVolumeValue_Click);
             // 
             // btnPlayOrPause
             // 
@@ -317,7 +324,7 @@
             // 
             // toolTipMusic
             // 
-            this.toolTipMusic.AutoPopDelay = 500;
+            this.toolTipMusic.AutoPopDelay = 5000;
             this.toolTipMusic.InitialDelay = 500;
             this.toolTipMusic.ReshowDelay = 100;
             // 
@@ -326,7 +333,7 @@
             this.AcceptButton = this.btnPlayOrPause;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(779, 410);
+            this.ClientSize = new System.Drawing.Size(779, 417);
             this.Controls.Add(this.btnPlayOrPause);
             this.Controls.Add(this.lblVolumeValue);
             this.Controls.Add(this.volumeBar);
@@ -345,6 +352,7 @@
             this.Controls.Add(this.lblSongName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "formLoopingAudio";

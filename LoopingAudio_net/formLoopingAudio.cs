@@ -30,6 +30,7 @@ namespace LoopingAudio_net
 
         private bool listenForLoop;
         private bool allowedSong;
+        private bool isSongPlaying;
 
         public formLoopingAudio()
         {
@@ -38,9 +39,11 @@ namespace LoopingAudio_net
             timer = new DispatcherTimer();
             mediaPlayer = new MediaPlayer();
             timer.Interval = TimeSpan.FromSeconds(1);
+            //timer.Interval = TimeSpan.FromMilliseconds(1);
 
             allowedSong = true;
             listenForLoop = false;
+            isSongPlaying = false;
 
             EnableOrDisableButtons(false);
         }
@@ -50,13 +53,14 @@ namespace LoopingAudio_net
             btnPlayOrPause.Text = "Pause";
             timer.Start();
             mediaPlayer.Play();
+            isSongPlaying = true;
         }
 
         private void PauseMusic()
         {
             btnPlayOrPause.Text = "Play";
             mediaPlayer.Pause();
-            timer.Stop();
+            timer.Stop();          
         }
 
         private void EnableOrDisableButtons(bool enable)
@@ -71,8 +75,7 @@ namespace LoopingAudio_net
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            lblCurrentTime.Text =
-                String.Format(mediaPlayer.Position.ToString(MinSecsFormat));
+            lblCurrentTime.Text = mediaPlayer.Position.ToString(MinSecsFormat);
             musicBar.Value = (int)mediaPlayer.Position.TotalSeconds;
 
             //FIXED: trackbar goes to a certain point, then resets to beginning and continues...
@@ -91,7 +94,7 @@ namespace LoopingAudio_net
 
         private void ResetAfterClearingSong()
         {
-            txtLoopStartPoint.Text = txtLoopEndPoint.Text = "";
+            txtLoopStartPoint.Text = txtLoopEndPoint.Text = txtTimestamps.Text = "";
             lblLoopStartPoint.Text = DefaultStartTime; 
             lblLoopEndPoint.Text = DefaultEndTime;
             
@@ -100,6 +103,8 @@ namespace LoopingAudio_net
 
             lblCurrentTime.Text = DefaultMidTime;
             lblEndTime.Text = DefaultEndTime;
+
+            isSongPlaying = false;
 
             if(listenForLoop)
             {
@@ -112,7 +117,7 @@ namespace LoopingAudio_net
         {
             txtLoopStartPoint.Text = txtLoopEndPoint.Text = "";
             lblLoopStartPoint.Text = DefaultStartTime;
-            lblLoopEndPoint.Text = DefaultEndTime;
+            lblLoopEndPoint.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(MinSecsFormat);
 
             if(listenForLoop)
             {
@@ -123,38 +128,42 @@ namespace LoopingAudio_net
 
         private void openTrackToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string name = "";
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
                 openFileDialog.FileName = "";
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {            
+                {
                     mediaPlayer.Open(new Uri(openFileDialog.FileName));
-
-                    //It seems that the MediaOpened event only fires during the timer1_tick method and
-                    //nowhere else. Unless I overcome this hurdle, I can't do my checks beneath
-
-                    //I learned the basics of eventhandlers and created my own event handler that will fire 
-                    //when this method is called
-                    
-                    mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
-                    if(!allowedSong)
-                    {
-                        allowedSong = true;
-                        MessageBox.Show("The song duration is too long!");
-                        return;
-                    }
-
-                    EnableOrDisableButtons(true);
-
-                    timer.Tick += timer1_Tick;                
-                    timer.Start();
-                    //mediaPlayer.Play();
-                    
-                    lblSongName.Text = openFileDialog.SafeFileName.Replace(".mp3", "");
+                    name = openFileDialog.SafeFileName.Replace(".mp3", "");
                 }
+                else if(openFileDialog.ShowDialog() == DialogResult.Cancel)
+                    return; //TODO: Another file dialog window pops up after clicking cancel
+                //thankfully, it only does it once
             }
+
+            //It seems that the MediaOpened event only fires during the timer1_tick method and
+            //nowhere else. Unless I overcome this hurdle, I can't do my checks beneath
+
+            //I learned the basics of eventhandlers and created my own event handler that will fire 
+            //when this method is called
+            mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
+            if (!allowedSong)
+            {
+                allowedSong = true;
+                mediaPlayer.MediaOpened -= MediaPlayer_MediaOpened;
+                MessageBox.Show($"The song duration cannot be longer than {MaxSongLength / 60} minutes!");
+                return;
+            }
+
+            EnableOrDisableButtons(true);
+
+            timer.Tick += timer1_Tick;
+            //timer.Start();
+            PlayMusic();
+            lblSongName.Text = name;
         }
 
         private void MediaPlayer_MediaOpened(object sender, EventArgs e)
@@ -177,6 +186,7 @@ namespace LoopingAudio_net
         private void btnClearSong_Click(object sender, EventArgs e)
         {
             //if(mediaPlayer.Source != null)
+            mediaPlayer.MediaOpened -= MediaPlayer_MediaOpened;
             mediaPlayer.Close();
             timer.Stop();
             timer.Tick -= timer1_Tick;
@@ -189,9 +199,20 @@ namespace LoopingAudio_net
             EnableOrDisableButtons(false);
         }
 
-        private void musicBar_MouseUp(object sender, MouseEventArgs e)
+        private void AdjustMusicPosition()
         {
             mediaPlayer.Position = TimeSpan.FromSeconds(musicBar.Value);
+            if (isSongPlaying)
+                PlayMusic();
+
+            //There is no property that indicates if a media is currently playing,
+            //so I had to add my own flag
+        }
+
+        private void musicBar_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnPlayOrPause.Enabled = true;
+            AdjustMusicPosition();
         }
 
         private void btnTimestamp_Click(object sender, EventArgs e)
@@ -207,20 +228,20 @@ namespace LoopingAudio_net
             //which in my case is mm:ss (or m:ss)
             if (Validator.IsCorrectFormat(txtTimestamps, MinSecsFormat))
                 mediaPlayer.Position = TimeSpan.ParseExact
-                    (txtTimestamps.Text, MinSecsFormat, CultureInfo.InvariantCulture);
+                    (txtTimestamps.Text, MinSecsFormat, CultureInfo.InvariantCulture);        
+        }
 
-            //if (!Validator.IsEmpty(txtTimestamps))
-            //{
-                
-            //}          
+        private void AdjustVolume()
+        {
+            //Dividing by 10.0 for converting to double
+            //"Convert.ToDouble()" wasn't getting the desired output. It was always zero
+            mediaPlayer.Volume = volumeBar.Value / 10.0;
+            //mediaPlayer.Volume is on a scale between 0 and 1, default is 0.5
         }
 
         private void volumeBar_MouseUp(object sender, MouseEventArgs e)
         {
-            //Dividing by 10.0 for converting to double
-            //"Convert.ToDouble()" wasn't getting the desired output. It was always zero
-            mediaPlayer.Volume = volumeBar.Value / 10.0; //mediaPlayer.Volume is on a scale 
-            lblVolumeValue.Text = volumeBar.Value.ToString(); //between 0 and 1, default is 0.5
+            AdjustVolume();
         }
 
         private int ParseMinSecs(string time)
@@ -258,11 +279,7 @@ namespace LoopingAudio_net
                         lblCurrentTime.TextChanged += lblCurrentTime_TextChanged;
                     }
                 }
-            }
-            //if (!Validator.IsEmpty(txtLoopStartPoint) && !Validator.IsEmpty(txtLoopEndPoint))
-            //{
-                    
-            //}           
+            }        
         }
 
         private void lblCurrentTime_TextChanged(object sender, EventArgs e)
@@ -284,44 +301,106 @@ namespace LoopingAudio_net
                 lblVolumeValue.ForeColor = System.Drawing.Color.Black;
         }
 
-        private void volumeBar_KeyUp(object sender, KeyEventArgs e)
-        {
-
-        }
-
         private void btnPlayOrPause_Click(object sender, EventArgs e)
         {
             if(btnPlayOrPause.Text == "Play")
-            {    
-                PlayMusic();
-            }
+            {
+                PlayMusic(); 
+            }                                                 
             else if(btnPlayOrPause.Text == "Pause")
-            {        
+            {               
                 PauseMusic();
-            }
-        }
-
-        private void lblVolumeValue_Click(object sender, EventArgs e)
-        {
-
+                isSongPlaying = false;
+            }                 
         }
 
         private void volumeBar_Scroll(object sender, EventArgs e)
         {
-
+            lblVolumeValue.Text = volumeBar.Value.ToString();
         }
 
         private void musicBar_Scroll(object sender, EventArgs e)
         {
-            toolTipMusic.SetToolTip(musicBar, 
-                TimeSpan.FromSeconds(musicBar.Value).ToString(MinSecsFormat));
+            lblCurrentTime.Text = TimeSpan.FromSeconds(musicBar.Value).ToString(MinSecsFormat);
         }
 
         private void musicBar_MouseDown(object sender, MouseEventArgs e)
         {
-            //TODO: when I click and drag the music bar, the music and timer should pause
+            //FIXED: when I click and drag the music bar, the music and timer should pause
             //until I release the mouse button. This will prevent the user from
             //having their click and drag motions be taken away by the moving scroll bar
+
+            //solved by using the trackbar mousedown and mouseup events
+            PauseMusic();
+            btnPlayOrPause.Enabled = false;
+        }
+
+        //Finished: Right and Left Arrow Key compatability with trackbar for music and volume respectively
+        //TODO: ONLY left and right arrow keys should work, and nothing else
+        //current problem: any key would briefly pause the player before it continues
+        //up and down keys move the trackbar, but since there is no event tied to it, no data changes
+        private void musicBar_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Right:
+                case Keys.Left:
+                    PauseMusic();
+                    btnPlayOrPause.Enabled = false;
+                    break;
+            }
+        }
+
+        private void musicBar_KeyUp(object sender, KeyEventArgs e)
+        {
+            btnPlayOrPause.Enabled = true;
+            AdjustMusicPosition();          
+        }
+
+        private void volumeBar_KeyDown(object sender, KeyEventArgs e)
+        {
+            //lblVolumeValue.Text = volumeBar.Value.ToString();
+            
+            switch (e.KeyCode)
+            {
+                case Keys.Right:
+                case Keys.Left:
+                    AdjustVolume();
+                    break;
+            }
+        }
+
+        private void musicBar_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Right:
+                case Keys.Left:
+                    e.IsInputKey = true;
+                    break;
+                default:
+                    e.IsInputKey = false;
+                    break;
+
+            }
+        }
+
+        private void volumeBar_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Right:
+                case Keys.Left:
+                    e.IsInputKey = true;
+                    break;
+                default: e.IsInputKey = false;
+                    break;
+            }
+        }
+
+        private void volumeBar_KeyUp(object sender, KeyEventArgs e)
+        {
+            
         }
     }
 }
