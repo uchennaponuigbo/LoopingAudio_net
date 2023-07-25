@@ -28,13 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFromDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveCurrentTrackToDatabseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.musicBar = new System.Windows.Forms.TrackBar();
             this.lblSongName = new System.Windows.Forms.Label();
             this.btnClearSong = new System.Windows.Forms.Button();
@@ -55,7 +53,7 @@
             this.volumeBar = new System.Windows.Forms.TrackBar();
             this.lblVolumeValue = new System.Windows.Forms.Label();
             this.btnPlayOrPause = new System.Windows.Forms.Button();
-            this.toolTipMusic = new System.Windows.Forms.ToolTip(this.components);
+            this.btnSaveToDatabase = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.musicBar)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -65,7 +63,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(330, 28);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(120, 25);
@@ -87,8 +85,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTrackToolStripMenuItem,
-            this.openFromDatabaseToolStripMenuItem,
-            this.saveCurrentTrackToDatabseToolStripMenuItem});
+            this.openFromDatabaseToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -96,21 +93,16 @@
             // openTrackToolStripMenuItem
             // 
             this.openTrackToolStripMenuItem.Name = "openTrackToolStripMenuItem";
-            this.openTrackToolStripMenuItem.Size = new System.Drawing.Size(307, 26);
-            this.openTrackToolStripMenuItem.Text = "Open Track...";
+            this.openTrackToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
+            this.openTrackToolStripMenuItem.Text = "Open...";
             this.openTrackToolStripMenuItem.Click += new System.EventHandler(this.openTrackToolStripMenuItem_Click);
             // 
             // openFromDatabaseToolStripMenuItem
             // 
             this.openFromDatabaseToolStripMenuItem.Name = "openFromDatabaseToolStripMenuItem";
-            this.openFromDatabaseToolStripMenuItem.Size = new System.Drawing.Size(307, 26);
+            this.openFromDatabaseToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
             this.openFromDatabaseToolStripMenuItem.Text = "Open From Database...";
-            // 
-            // saveCurrentTrackToDatabseToolStripMenuItem
-            // 
-            this.saveCurrentTrackToDatabseToolStripMenuItem.Name = "saveCurrentTrackToDatabseToolStripMenuItem";
-            this.saveCurrentTrackToDatabseToolStripMenuItem.Size = new System.Drawing.Size(307, 26);
-            this.saveCurrentTrackToDatabseToolStripMenuItem.Text = "Save Current Track to Database...";
+            this.openFromDatabaseToolStripMenuItem.Click += new System.EventHandler(this.openFromDatabaseToolStripMenuItem_Click);
             // 
             // musicBar
             // 
@@ -183,7 +175,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(47, 306);
+            this.label2.Location = new System.Drawing.Point(47, 307);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(115, 18);
             this.label2.TabIndex = 10;
@@ -223,21 +215,23 @@
             // 
             this.txtLoopStartPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLoopStartPoint.Location = new System.Drawing.Point(168, 303);
+            this.txtLoopStartPoint.MaxLength = 10;
             this.txtLoopStartPoint.Name = "txtLoopStartPoint";
-            this.txtLoopStartPoint.Size = new System.Drawing.Size(75, 27);
+            this.txtLoopStartPoint.Size = new System.Drawing.Size(55, 27);
             this.txtLoopStartPoint.TabIndex = 14;
             // 
             // txtLoopEndPoint
             // 
             this.txtLoopEndPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLoopEndPoint.Location = new System.Drawing.Point(611, 302);
+            this.txtLoopEndPoint.MaxLength = 10;
             this.txtLoopEndPoint.Name = "txtLoopEndPoint";
-            this.txtLoopEndPoint.Size = new System.Drawing.Size(75, 27);
+            this.txtLoopEndPoint.Size = new System.Drawing.Size(55, 27);
             this.txtLoopEndPoint.TabIndex = 15;
             // 
             // btnSetLoopPoints
             // 
-            this.btnSetLoopPoints.Location = new System.Drawing.Point(287, 324);
+            this.btnSetLoopPoints.Location = new System.Drawing.Point(287, 311);
             this.btnSetLoopPoints.Name = "btnSetLoopPoints";
             this.btnSetLoopPoints.Size = new System.Drawing.Size(82, 37);
             this.btnSetLoopPoints.TabIndex = 16;
@@ -247,7 +241,7 @@
             // 
             // btnClearLoopPoints
             // 
-            this.btnClearLoopPoints.Location = new System.Drawing.Point(381, 319);
+            this.btnClearLoopPoints.Location = new System.Drawing.Point(381, 306);
             this.btnClearLoopPoints.Name = "btnClearLoopPoints";
             this.btnClearLoopPoints.Size = new System.Drawing.Size(90, 47);
             this.btnClearLoopPoints.TabIndex = 17;
@@ -269,6 +263,7 @@
             // 
             this.txtTimestamps.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTimestamps.Location = new System.Drawing.Point(129, 366);
+            this.txtTimestamps.MaxLength = 10;
             this.txtTimestamps.Name = "txtTimestamps";
             this.txtTimestamps.Size = new System.Drawing.Size(75, 27);
             this.txtTimestamps.TabIndex = 19;
@@ -304,10 +299,10 @@
             // lblVolumeValue
             // 
             this.lblVolumeValue.AutoSize = true;
-            this.lblVolumeValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVolumeValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVolumeValue.Location = new System.Drawing.Point(537, 355);
             this.lblVolumeValue.Name = "lblVolumeValue";
-            this.lblVolumeValue.Size = new System.Drawing.Size(18, 20);
+            this.lblVolumeValue.Size = new System.Drawing.Size(23, 25);
             this.lblVolumeValue.TabIndex = 22;
             this.lblVolumeValue.Text = "5";
             this.lblVolumeValue.TextChanged += new System.EventHandler(this.lblVolumeValue_TextChanged);
@@ -322,11 +317,15 @@
             this.btnPlayOrPause.UseVisualStyleBackColor = true;
             this.btnPlayOrPause.Click += new System.EventHandler(this.btnPlayOrPause_Click);
             // 
-            // toolTipMusic
+            // btnSaveToDatabase
             // 
-            this.toolTipMusic.AutoPopDelay = 5000;
-            this.toolTipMusic.InitialDelay = 500;
-            this.toolTipMusic.ReshowDelay = 100;
+            this.btnSaveToDatabase.Location = new System.Drawing.Point(314, 359);
+            this.btnSaveToDatabase.Name = "btnSaveToDatabase";
+            this.btnSaveToDatabase.Size = new System.Drawing.Size(136, 46);
+            this.btnSaveToDatabase.TabIndex = 24;
+            this.btnSaveToDatabase.Text = "Save to Database";
+            this.btnSaveToDatabase.UseVisualStyleBackColor = true;
+            this.btnSaveToDatabase.Click += new System.EventHandler(this.btnSaveToDatabase_Click);
             // 
             // formLoopingAudio
             // 
@@ -334,6 +333,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 417);
+            this.Controls.Add(this.btnSaveToDatabase);
             this.Controls.Add(this.btnPlayOrPause);
             this.Controls.Add(this.lblVolumeValue);
             this.Controls.Add(this.volumeBar);
@@ -356,7 +356,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "formLoopingAudio";
-            this.Text = "Looping Audio";
+            this.Text = "Looping Audio Interval";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.formLoopingAudio_FormClosed);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.musicBar)).EndInit();
@@ -375,7 +376,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openTrackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openFromDatabaseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveCurrentTrackToDatabseToolStripMenuItem;
         private System.Windows.Forms.TrackBar musicBar;
         private System.Windows.Forms.Label lblSongName;
         private System.Windows.Forms.Button btnClearSong;
@@ -396,7 +396,7 @@
         private System.Windows.Forms.TrackBar volumeBar;
         private System.Windows.Forms.Label lblVolumeValue;
         private System.Windows.Forms.Button btnPlayOrPause;
-        private System.Windows.Forms.ToolTip toolTipMusic;
+        private System.Windows.Forms.Button btnSaveToDatabase;
     }
 }
 

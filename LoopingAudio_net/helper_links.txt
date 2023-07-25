@@ -4,3 +4,10 @@ https://stackoverflow.com/questions/24289297/how-to-make-trackbar-works-while-me
 https://stackoverflow.com/questions/4338951/how-do-i-determine-if-mediaelement-is-playing
 https://stackoverflow.com/questions/1646998/up-down-left-and-right-arrow-keys-do-not-trigger-keydown-event
 https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.control.previewkeydown?view=windowsdesktop-7.0&redirectedfrom=MSDN
+https://www.learndapper.com/
+https://www.tutorialspoint.com/best-way-to-test-if-a-row-exists-in-a-mysql-table#:~:text=To%20test%20whether%20a%20row,table%2C%20otherwise%20false%20is%20returned.
+https://stackoverflow.com/questions/8624071/save-and-load-memorystream-to-from-a-file
+https://www.codeproject.com/Questions/1017532/How-do-I-call-method-of-Form-from-Form
+https://stackoverflow.com/questions/71324241/how-to-call-form-1s-method-from-form2-without-static-and-new-class
+https://stackoverflow.com/questions/4264184/c-sharp-close-stream-and-delete-file-if-something-failed
+https://stackoverflow.com/questions/2683679/how-to-know-user-has-clicked-x-or-the-close-button
