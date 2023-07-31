@@ -36,17 +36,17 @@ namespace LoopingAudio_net
             }
         }
 
-        internal void InsertOrUpdateSong(Music music)
+        internal void InsertOrUpdateSong(in Music music)
         {
             using (IDbConnection connection = new SQLiteConnection(connectionString))
             {
-                string sql = $"SELECT EXISTS(SELECT Name FROM Music WHERE Name = \"{music.Name}\");";
-                int transaction = connection.Execute(sql, new DynamicParameters(), null);
+                string sql = $"SELECT EXISTS(SELECT Name FROM Music WHERE Name = @Name);";
+                var parms = new { music.Name };
+                int transaction = connection.QuerySingleOrDefault<int>(sql, parms, null);
                 if(transaction == 1) // exist, update table
                 {
                     sql = "UPDATE Music SET StartPoint = @StartPoint " +
-                        "AND EndPoint = @EndPoint" +
-                        $"WHERE Name = @Name";
+                        "AND EndPoint = @EndPoint WHERE Name = @Name";
                     var parameters = new { music.StartPoint, music.EndPoint, music.Name};
                     connection.Execute(sql, parameters, null, 10);
                 }

@@ -448,8 +448,17 @@ namespace LoopingAudio_net
         private void btnSaveToDatabase_Click(object sender, EventArgs e)
         {
             AudioDB audio = new AudioDB();
-            Music newMusic = new Music(lblSongName.Text, lblLoopStartPoint.Text,
-                                        lblLoopEndPoint.Text, mediaPlayer.Source.OriginalString);
+            Music newMusic = null;
+            try
+            {
+                newMusic = new Music(lblSongName.Text, lblLoopStartPoint.Text, lblLoopEndPoint.Text, 
+                                        File.ReadAllBytes(mediaPlayer.Source.OriginalString));
+            }
+            catch(FileNotFoundException ex)
+            {
+                MessageBox.Show("This file doesn't exist at path:/r/n" + ex.Message);
+                return;
+            }
             audio.InsertOrUpdateSong(newMusic);
             MessageBox.Show("Song updated/added in database.");
         }

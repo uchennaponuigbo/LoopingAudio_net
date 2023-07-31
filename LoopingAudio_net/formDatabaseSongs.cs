@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace LoopingAudio_net
 {
@@ -27,8 +26,7 @@ namespace LoopingAudio_net
         {
             listBoxSongs.Enabled = false;
             if (listBoxSongs.SelectedIndex != -1)
-            {
-                
+            {   
                 Cursor.Current = Cursors.WaitCursor;               
                 Music music = audioDB.GetSongData(listBoxSongs.SelectedItem.ToString());
                 formLoopingAudio.loopingAudioForm.PlaySongFromDatabase(music);

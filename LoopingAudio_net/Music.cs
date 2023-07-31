@@ -2,10 +2,10 @@
 {
     internal class Music
     {
-        internal string Name { get; set; }
-        internal byte[] Song { get; set; }
-        internal string StartPoint { get; set; }  
-        internal string EndPoint { get; set; }
+        internal string Name { get; }
+        internal byte[] Song { get; }
+        internal string StartPoint { get; }  
+        internal string EndPoint { get; }
 
         internal Music() { }
 
@@ -17,12 +17,12 @@
             Song = song;
         }
 
-        internal Music(string name, string startLoop, string endLoop, string absolutePath)
-        {
-            StartPoint = startLoop;
-            EndPoint = endLoop;
-            Name = name;
-            Song = System.IO.File.ReadAllBytes(absolutePath);
-        }
+        //internal Music(string name, string startLoop, string endLoop, string absolutePath)
+        //{
+        //    StartPoint = startLoop;
+        //    EndPoint = endLoop;
+        //    Name = name;
+        //    Song = System.IO.File.ReadAllBytes(absolutePath);
+        //}
     }
 }

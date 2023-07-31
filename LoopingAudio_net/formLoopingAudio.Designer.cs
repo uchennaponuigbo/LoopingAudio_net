@@ -197,9 +197,9 @@
             this.lblLoopStartPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoopStartPoint.Location = new System.Drawing.Point(142, 147);
             this.lblLoopStartPoint.Name = "lblLoopStartPoint";
-            this.lblLoopStartPoint.Size = new System.Drawing.Size(71, 29);
+            this.lblLoopStartPoint.Size = new System.Drawing.Size(58, 29);
             this.lblLoopStartPoint.TabIndex = 12;
-            this.lblLoopStartPoint.Text = "00:00";
+            this.lblLoopStartPoint.Text = "0:00";
             // 
             // lblLoopEndPoint
             // 
