@@ -60,6 +60,7 @@ namespace LoopingAudio_net
             //while the form is opened.  
             listBoxSongs.SelectedIndexChanged -= listBoxSongs_SelectedIndexChanged;
             audioDB = new AudioDB();
+            audioDB.SetUp();
             listBoxSongs.DataSource = audioDB.GetSongList();
             listBoxSongs.SelectedIndex = -1;
             listBoxSongs.SelectedIndexChanged += listBoxSongs_SelectedIndexChanged;

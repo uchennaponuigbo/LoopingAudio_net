@@ -11,3 +11,6 @@ https://www.codeproject.com/Questions/1017532/How-do-I-call-method-of-Form-from-
 https://stackoverflow.com/questions/71324241/how-to-call-form-1s-method-from-form2-without-static-and-new-class
 https://stackoverflow.com/questions/4264184/c-sharp-close-stream-and-delete-file-if-something-failed
 https://stackoverflow.com/questions/2683679/how-to-know-user-has-clicked-x-or-the-close-button
+
+
+https://www.youtube.com/watch?v=HG7hi9s7YhQ&ab_channel=winforms

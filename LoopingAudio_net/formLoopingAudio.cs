@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -58,6 +50,8 @@ namespace LoopingAudio_net
             EnableOrDisableButtons(false);
 
             loopingAudioForm = this;
+
+            //MessageBox.Show(BinDebug);
         }
 
         private void PlayMusic()
@@ -259,6 +253,7 @@ namespace LoopingAudio_net
             //"Convert.ToDouble()" wasn't getting the desired output. It was always zero
             mediaPlayer.Volume = volumeBar.Value / 10.0;
             //mediaPlayer.Volume is on a scale between 0 and 1, default is 0.5
+
         }
 
         private void volumeBar_MouseUp(object sender, MouseEventArgs e)

@@ -15,6 +15,25 @@ namespace LoopingAudio_net
             connectionString = ConfigurationManager.ConnectionStrings["songs"].ConnectionString;
         }
 
+        internal void SetUp()
+        {
+            using (IDbConnection connection = new SQLiteConnection(connectionString))
+            {
+                string checkTable = "SELECT name FROM sqlite_master WHERE type='table' AND name='Music'";
+
+                IEnumerable<string> table = connection.Query<string>(checkTable);
+                string tableName = table.FirstOrDefault();
+                if (!string.IsNullOrEmpty(tableName) && tableName == "Music")
+                    return;
+
+                string createTable = "CREATE TABLE \"Music\" " +
+                    "(\r\n\t\"Name\"\tTEXT,\r\n\t\"StartPoint\"\tTEXT," +
+                    "\r\n\t\"EndPoint\"\tTEXT,\r\n\t\"Song\"\tBLOB\r\n)";
+
+                connection.Execute(createTable);
+            }
+        }
+
         internal List<string> GetSongList()
         {
             using (IDbConnection connection = new SQLiteConnection(connectionString))
