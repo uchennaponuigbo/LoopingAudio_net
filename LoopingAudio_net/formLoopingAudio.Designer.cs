@@ -77,7 +77,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(779, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(779, 30);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -87,7 +87,7 @@
             this.openTrackToolStripMenuItem,
             this.openFromDatabaseToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openTrackToolStripMenuItem
@@ -194,20 +194,20 @@
             // lblLoopStartPoint
             // 
             this.lblLoopStartPoint.AutoSize = true;
-            this.lblLoopStartPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopStartPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoopStartPoint.Location = new System.Drawing.Point(142, 147);
             this.lblLoopStartPoint.Name = "lblLoopStartPoint";
-            this.lblLoopStartPoint.Size = new System.Drawing.Size(58, 29);
+            this.lblLoopStartPoint.Size = new System.Drawing.Size(62, 29);
             this.lblLoopStartPoint.TabIndex = 12;
             this.lblLoopStartPoint.Text = "0:00";
             // 
             // lblLoopEndPoint
             // 
             this.lblLoopEndPoint.AutoSize = true;
-            this.lblLoopEndPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoopEndPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLoopEndPoint.Location = new System.Drawing.Point(583, 147);
             this.lblLoopEndPoint.Name = "lblLoopEndPoint";
-            this.lblLoopEndPoint.Size = new System.Drawing.Size(71, 29);
+            this.lblLoopEndPoint.Size = new System.Drawing.Size(76, 29);
             this.lblLoopEndPoint.TabIndex = 13;
             this.lblLoopEndPoint.Text = "59:59";
             // 
@@ -219,6 +219,7 @@
             this.txtLoopStartPoint.Name = "txtLoopStartPoint";
             this.txtLoopStartPoint.Size = new System.Drawing.Size(55, 27);
             this.txtLoopStartPoint.TabIndex = 14;
+            this.txtLoopStartPoint.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtLoopEndPoint
             // 
@@ -228,6 +229,7 @@
             this.txtLoopEndPoint.Name = "txtLoopEndPoint";
             this.txtLoopEndPoint.Size = new System.Drawing.Size(55, 27);
             this.txtLoopEndPoint.TabIndex = 15;
+            this.txtLoopEndPoint.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnSetLoopPoints
             // 
@@ -241,11 +243,11 @@
             // 
             // btnClearLoopPoints
             // 
-            this.btnClearLoopPoints.Location = new System.Drawing.Point(381, 306);
+            this.btnClearLoopPoints.Location = new System.Drawing.Point(381, 311);
             this.btnClearLoopPoints.Name = "btnClearLoopPoints";
-            this.btnClearLoopPoints.Size = new System.Drawing.Size(90, 47);
+            this.btnClearLoopPoints.Size = new System.Drawing.Size(95, 37);
             this.btnClearLoopPoints.TabIndex = 17;
-            this.btnClearLoopPoints.Text = "Clear Loop Points";
+            this.btnClearLoopPoints.Text = "Clear Loops";
             this.btnClearLoopPoints.UseVisualStyleBackColor = true;
             this.btnClearLoopPoints.Click += new System.EventHandler(this.btnClearLoopPoints_Click);
             // 
@@ -267,6 +269,7 @@
             this.txtTimestamps.Name = "txtTimestamps";
             this.txtTimestamps.Size = new System.Drawing.Size(75, 27);
             this.txtTimestamps.TabIndex = 19;
+            this.txtTimestamps.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBox1
             // 
@@ -309,11 +312,12 @@
             // 
             // btnPlayOrPause
             // 
+            this.btnPlayOrPause.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPlayOrPause.Location = new System.Drawing.Point(294, 140);
             this.btnPlayOrPause.Name = "btnPlayOrPause";
             this.btnPlayOrPause.Size = new System.Drawing.Size(75, 34);
             this.btnPlayOrPause.TabIndex = 23;
-            this.btnPlayOrPause.Text = "Play";
+            this.btnPlayOrPause.Text = "▶";
             this.btnPlayOrPause.UseVisualStyleBackColor = true;
             this.btnPlayOrPause.Click += new System.EventHandler(this.btnPlayOrPause_Click);
             // 

@@ -11,6 +11,36 @@ https://www.codeproject.com/Questions/1017532/How-do-I-call-method-of-Form-from-
 https://stackoverflow.com/questions/71324241/how-to-call-form-1s-method-from-form2-without-static-and-new-class
 https://stackoverflow.com/questions/4264184/c-sharp-close-stream-and-delete-file-if-something-failed
 https://stackoverflow.com/questions/2683679/how-to-know-user-has-clicked-x-or-the-close-button
-
+https://dotnetcorecentral.com/blog/how-to-use-sqlite-with-dapper/
+https://stackoverflow.com/questions/1601151/how-do-i-check-in-sqlite-whether-a-table-exists
+https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods
 
 https://www.youtube.com/watch?v=HG7hi9s7YhQ&ab_channel=winforms
+
+
+//BUGS TO FIX
+//1, After a few frames, lblEndPoint.Text is changed to the total length of media from the initial EndPoint text
+//endpoint if the media was retrieved from the database [FIXED]
+
+/*
+ I've tried everything I can think of, nothing works
+
+1. Adjusting variables and methods before and after other variables
+2. Calling the .PerformClick() Method
+3. Exposing the button as "internal" then calling the .PerformClick() button in another form
+
+I find it very strange how the integer value of the length of the media is consistent,
+but the string representation of that string isn't.
+
+I FIXED IT
+After a good night's sleep, I thought off where I do I use the lblEndPoint in my code and one of
+the locations is inside the MediaOpened Event, which is fired after the database opens the media
+
+That was the place that changes the string, but there is no change to the integer represenation
+ */
+
+//2, BECAUSE OF MY INHERITANCE CHANGE, IF I HOLD DOWN ON MUSICBAR, THE PLAYHEAD WILL BE PAUSED
+//REGARLDESS IF THE PLAYHEAD HAS BEEN PAUSED BEFORE OR NOT
+
+//I might have to just revert the changes, or else I'll end up exposing the private bool member
+//which defeats the purpose of this. ["FIXED"] I did just that. No extended class

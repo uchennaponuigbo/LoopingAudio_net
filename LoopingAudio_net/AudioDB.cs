@@ -64,10 +64,16 @@ namespace LoopingAudio_net
                 int transaction = connection.QuerySingleOrDefault<int>(sql, parms, null);
                 if(transaction == 1) // exist, update table
                 {
-                    sql = "UPDATE Music SET StartPoint = @StartPoint " +
-                        "AND EndPoint = @EndPoint WHERE Name = @Name";
+                    sql = "UPDATE Music SET StartPoint = @StartPoint, " +
+                        "EndPoint = @EndPoint WHERE Name = @Name";
                     var parameters = new { music.StartPoint, music.EndPoint, music.Name};
                     connection.Execute(sql, parameters, null, 10);
+
+                    //TODO: Find out why the startpoint value is "0". The error occurs in the 
+                    //Execute function for some reason.
+
+                    //FIXED, I messed up my SQL syntax, for SET multiple values, there should be
+                    //commas to seperate them, not AND
                 }
                 else //doesn't exist, insert table
                 {

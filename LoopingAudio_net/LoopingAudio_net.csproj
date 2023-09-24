@@ -134,6 +134,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioDB.cs" />
+    <Compile Include="LoopingAudioHelperFunctions.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="formDatabaseSongs.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +168,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="LoopingAudioDB.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -185,7 +191,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="helper_links.txt" />
+    <None Include="helper_links.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

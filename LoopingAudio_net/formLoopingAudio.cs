@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -10,29 +9,6 @@ namespace LoopingAudio_net
 {
     public partial class formLoopingAudio : Form
     {
-        private MediaPlayer mediaPlayer = null;
-        private DispatcherTimer timer = null;
-
-        formDatabaseSongs databaseSongForm = new formDatabaseSongs();
-        internal static formLoopingAudio loopingAudioForm = null;
-
-        private const int MaxSongLength = 3600;
-        private const int SmallestLoopInterval = 3;
-        private int loopEndPoint = MaxSongLength;
-
-        private const string MinSecsFormat = @"m\:ss"; //.f
-        private const string DefaultStartTime = "0:00";
-        private const string DefaultEndTime = "59:59";
-        private const string DefaultMidTime = "29:59";
-
-        private readonly string BinDebug = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        private string databaseSongAbsPath = "";
-
-        private bool listenForLoop;
-        private bool allowedSong;
-        private bool isSongPlaying;
-        private bool isSongFromDatabase;
-
         public formLoopingAudio()
         {
             InitializeComponent();
@@ -54,32 +30,6 @@ namespace LoopingAudio_net
             //MessageBox.Show(BinDebug);
         }
 
-        private void PlayMusic()
-        {
-            btnPlayOrPause.Text = "Pause";
-            timer.Start();
-            mediaPlayer.Play();
-            isSongPlaying = true;
-        }
-
-        private void PauseMusic()
-        {
-            btnPlayOrPause.Text = "Play";
-            mediaPlayer.Pause();
-            timer.Stop();          
-        }
-
-        private void EnableOrDisableButtons(bool enable)
-        {
-            musicBar.Enabled = 
-            btnTimestamp.Enabled =
-            btnSetLoopPoints.Enabled =
-            btnClearLoopPoints.Enabled =
-            btnPlayOrPause.Enabled =
-            btnClearSong.Enabled =
-            btnSaveToDatabase.Enabled = enable;
-        }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             lblCurrentTime.Text = mediaPlayer.Position.ToString(MinSecsFormat);
@@ -99,36 +49,8 @@ namespace LoopingAudio_net
             //because TotalSeconds returns a double
         }
 
-        private void ResetAfterClearingSong()
-        {
-            txtLoopStartPoint.Text = txtLoopEndPoint.Text = txtTimestamps.Text = "";
-            lblLoopStartPoint.Text = DefaultStartTime;
-            lblLoopEndPoint.Text = DefaultEndTime;
-
-            lblLoopStartPoint.ForeColor = lblLoopEndPoint.ForeColor = System.Drawing.Color.Black;
-            //CheckForSongLooping();
-
-            lblSongName.Text = "(mp3 Song Here)";
-            btnPlayOrPause.Text = "Play";
-
-            lblCurrentTime.Text = DefaultMidTime;
-            lblEndTime.Text = DefaultEndTime;
-
-            loopEndPoint = MaxSongLength;
-            isSongPlaying = false;
-
-            if (listenForLoop)
-            {
-                lblCurrentTime.TextChanged -= lblCurrentTime_TextChanged;
-                listenForLoop = false;
-            }
-
-            DeleteExternalDatabaseSong();
-        }
-
         private void btnClearLoopPoints_Click(object sender, EventArgs e)
         {
-            txtLoopStartPoint.Text = txtLoopEndPoint.Text = "";
             lblLoopStartPoint.Text = DefaultStartTime;
             lblLoopEndPoint.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(MinSecsFormat);
             lblLoopStartPoint.ForeColor = lblLoopEndPoint.ForeColor = System.Drawing.Color.Black;
@@ -177,7 +99,6 @@ namespace LoopingAudio_net
             EnableOrDisableButtons(true);
 
             timer.Tick += timer1_Tick;
-            //timer.Start();
             PlayMusic();
             lblSongName.Text = name;
         }
@@ -187,8 +108,13 @@ namespace LoopingAudio_net
             if (mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds <= MaxSongLength &&
                 mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds >= SmallestLoopInterval)
             {
-                lblLoopEndPoint.Text = 
-                    lblEndTime.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(MinSecsFormat);
+                lblEndTime.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(MinSecsFormat);
+
+                if (!isSongFromDatabase)
+                    lblLoopEndPoint.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(MinSecsFormat);
+                else
+                    lblLoopEndPoint.Text = txtLoopEndPoint.Text;
+
                 musicBar.Maximum = (int)mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;          
             }
             else
@@ -210,17 +136,7 @@ namespace LoopingAudio_net
             DeleteExternalDatabaseSong();
 
             EnableOrDisableButtons(false);
-        }
-
-        private void AdjustMusicPosition()
-        {
-            mediaPlayer.Position = TimeSpan.FromSeconds(musicBar.Value);
-            if (isSongPlaying)
-                PlayMusic();
-
-            //There is no property that indicates if a media is currently playing,
-            //so I had to add my own flag
-        }
+        }  
 
         private void musicBar_MouseUp(object sender, MouseEventArgs e)
         {
@@ -243,17 +159,7 @@ namespace LoopingAudio_net
             {
                 mediaPlayer.Position = TimeSpan.ParseExact
                     (txtTimestamps.Text, MinSecsFormat, CultureInfo.InvariantCulture);
-            }
-                        
-        }
-
-        private void AdjustVolume()
-        {
-            //Dividing by 10.0 for converting to double
-            //"Convert.ToDouble()" wasn't getting the desired output. It was always zero
-            mediaPlayer.Volume = volumeBar.Value / 10.0;
-            //mediaPlayer.Volume is on a scale between 0 and 1, default is 0.5
-
+            }                      
         }
 
         private void volumeBar_MouseUp(object sender, MouseEventArgs e)
@@ -261,53 +167,16 @@ namespace LoopingAudio_net
             AdjustVolume();
         }
 
-        private int ParseMinSecs(string time)
-        {
-            string[] split = time.Split(':');
-            int value = (Convert.ToInt32(split[0]) * 60) + Convert.ToInt32(split[1]);
-            return value;
-        }
-
         private void btnSetLoopPoints_Click(object sender, EventArgs e)
         {
-            if (Validator.IsCorrectFormat(txtLoopStartPoint, MinSecsFormat) &&
-                    Validator.IsCorrectFormat(txtLoopEndPoint, MinSecsFormat))
-            {
-                int min = ParseMinSecs(txtLoopStartPoint.Text);
-                int max = ParseMinSecs(txtLoopEndPoint.Text);
-
-                if (Validator.IsMinLessThanMax(min, max))
-                {
-                    if(!Validator.IsGreaterThanInterval(min, max, SmallestLoopInterval))
-                    {
-                        MessageBox.Show($"The loop interval must be at least {SmallestLoopInterval} seconds apart.");
-                        return;
-                    }
-
-                    lblLoopStartPoint.Text = txtLoopStartPoint.Text;
-                    lblLoopEndPoint.Text = txtLoopEndPoint.Text;
-                    loopEndPoint = max;
-
-                    lblLoopStartPoint.ForeColor = lblLoopEndPoint.ForeColor = System.Drawing.Color.Green;
-
-                    if (!listenForLoop)
-                    {
-                        listenForLoop = true;
-                        lblCurrentTime.TextChanged += lblCurrentTime_TextChanged;
-                    }
-                }
-            }        
+            SetLoopPoints();
         }
-
+        
         private void lblCurrentTime_TextChanged(object sender, EventArgs e)
         {
-            //if (lblCurrentTime.Text == lblLoopEndPoint.Text)
-            //{
-            //    mediaPlayer.Position = TimeSpan.ParseExact
-            //            (lblLoopStartPoint.Text, MinSecsFormat, CultureInfo.InvariantCulture);
-            //}
-            //int x = (int)mediaPlayer.Position.TotalSeconds + 1;
-            if (loopEndPoint == (int)mediaPlayer.Position.TotalSeconds /*|| loopEndPoint == x*/ )
+            //Changing "==" to "<=" fixes the issues of position going beyond loop point,
+            //but prevents user manually going beyond the same pont. A fair trade off.
+            if (loopEndPoint <= (int)mediaPlayer.Position.TotalSeconds)
             {
                 mediaPlayer.Position = TimeSpan.ParseExact
                         (lblLoopStartPoint.Text, MinSecsFormat, CultureInfo.InvariantCulture);
@@ -326,11 +195,11 @@ namespace LoopingAudio_net
 
         private void btnPlayOrPause_Click(object sender, EventArgs e)
         {
-            if(btnPlayOrPause.Text == "Play")
+            if(btnPlayOrPause.Text == Play)
             {
                 PlayMusic(); 
             }                                                 
-            else if(btnPlayOrPause.Text == "Pause")
+            else if(btnPlayOrPause.Text == Pause)
             {               
                 PauseMusic();
                 isSongPlaying = false;
@@ -455,102 +324,7 @@ namespace LoopingAudio_net
                 return;
             }
             audio.InsertOrUpdateSong(newMusic);
-            MessageBox.Show("Song updated/added in database.");
-        }
-
-        private void DeleteExternalDatabaseSong()
-        {
-            if (isSongFromDatabase)
-            {
-                try 
-                {
-                    File.Delete(databaseSongAbsPath);
-                }
-                catch(IOException ex)
-                {
-                    MessageBox.Show
-                        ($"The file could not be deleted./r/nPath: {databaseSongAbsPath}/r/n {ex}" );
-                }
-
-                isSongFromDatabase = false;
-                databaseSongAbsPath = "";
-            }         
-        }
-
-        internal void PlaySongFromDatabase(Music music)
-        {
-            if(databaseSongForm != null)
-            {
-                DeleteExternalDatabaseSong(); //if there are other songs played from DB then...
-
-                //solution is to create the file and store it in bin/debug folder
-                //the file will be deleted once the user is done with the song
-
-                //I do not like this solution...
-                //in the future, I want to only read from what I have in the program's memory...
-                //aka from the byte array
-
-                //if I can't find another solution, I have to set a 'open from database' flag
-                //store the path of the file, and delete the said file when done
-
-                //throw some try/catches here too...
-                
-                using (MemoryStream m = new MemoryStream(music.Song))
-                {
-                    string filename = $"{music.Name}.mp3";
-                    try 
-                    {
-                        using (FileStream file = new FileStream(filename, FileMode.Create, FileAccess.Write))
-                        {
-                            m.CopyTo(file);
-                            databaseSongAbsPath = Path.Combine(BinDebug, filename);
-                            mediaPlayer.Open(new Uri(databaseSongAbsPath));
-                        }
-                    }
-                    catch (IOException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
-
-                mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
-
-                if (!allowedSong)
-                {
-                    allowedSong = true;
-                    mediaPlayer.MediaOpened -= MediaPlayer_MediaOpened;
-                    MessageBox.Show($"The song duration cannot be longer than {MaxSongLength / 60} minutes" +
-                        $"or shorter than {SmallestLoopInterval} seconds!");
-                    DeleteExternalDatabaseSong();
-                    return;
-                }
-
-                CheckForSongLooping();
-
-                isSongFromDatabase = true;
-                EnableOrDisableButtons(true);
-                timer.Tick += timer1_Tick;
-                PlayMusic();
-
-                lblSongName.Text = music.Name;
-                txtLoopStartPoint.Text = music.StartPoint;
-                txtLoopEndPoint.Text = music.EndPoint;
-            }
-        }
-
-        private void CheckForSongLooping()
-        {
-            if (listenForLoop)
-            {
-                lblLoopStartPoint.Text = DefaultStartTime;
-                lblLoopEndPoint.Text = DefaultEndTime;
-
-                txtLoopStartPoint.Text = txtLoopEndPoint.Text = "";
-
-                lblLoopStartPoint.ForeColor = lblLoopEndPoint.ForeColor = System.Drawing.Color.Black;
-                lblCurrentTime.TextChanged -= lblCurrentTime_TextChanged;
-                listenForLoop = false;
-            }
+            MessageBox.Show("Song added/updated in database.");
         }
 
         private void formLoopingAudio_FormClosed(object sender, FormClosedEventArgs e)

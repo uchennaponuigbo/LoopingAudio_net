@@ -38,6 +38,7 @@
             // listBoxSongs
             // 
             this.listBoxSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBoxSongs.ForeColor = System.Drawing.SystemColors.WindowText;
             this.listBoxSongs.FormattingEnabled = true;
             this.listBoxSongs.HorizontalScrollbar = true;
             this.listBoxSongs.ItemHeight = 18;

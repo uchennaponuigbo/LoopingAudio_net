@@ -25,6 +25,7 @@ namespace LoopingAudio_net
         private void listBoxSongs_SelectedIndexChanged(object sender, EventArgs e)
         {
             listBoxSongs.Enabled = false;
+            listBoxSongs.ForeColor = System.Drawing.Color.Red;
             if (listBoxSongs.SelectedIndex != -1)
             {   
                 Cursor.Current = Cursors.WaitCursor;               
@@ -32,6 +33,7 @@ namespace LoopingAudio_net
                 formLoopingAudio.loopingAudioForm.PlaySongFromDatabase(music);
                 Cursor.Current = Cursors.Default;               
             }
+            listBoxSongs.ForeColor = ListBox.DefaultForeColor;
             listBoxSongs.Enabled = true;
         }
 
@@ -68,15 +70,16 @@ namespace LoopingAudio_net
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (listBoxSongs.SelectedIndex == -1)
+                return;
+
             DialogResult result = MessageBox.Show("Do you want to delete this song from the database?", "Confirmation", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
                 listBoxSongs.SelectedIndexChanged -= listBoxSongs_SelectedIndexChanged;
-                if (listBoxSongs.SelectedIndex != -1)
-                {
-                    audioDB.DeleteSong(listBoxSongs.SelectedItem.ToString());
-                    listBoxSongs.DataSource = audioDB.GetSongList();
-                }
+
+                audioDB.DeleteSong(listBoxSongs.SelectedItem.ToString());
+                listBoxSongs.DataSource = audioDB.GetSongList();
 
                 listBoxSongs.SelectedIndexChanged += listBoxSongs_SelectedIndexChanged;
             }         
