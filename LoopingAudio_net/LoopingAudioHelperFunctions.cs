@@ -172,19 +172,10 @@ namespace LoopingAudio_net
         {
             if (databaseSongForm != null)
             {
-                DeleteExternalDatabaseSong(); //if there are other songs played from DB then...
+                DeleteExternalDatabaseSong(); //if there is another song playing from DB...
 
-                //solution is to create the file and store it in bin/debug folder
+                //create the file and store it and path to it in bin/debug folder
                 //the file will be deleted once the user is done with the song
-
-                //I do not like this solution...
-                //in the future, I want to only read from what I have in the program's memory...
-                //aka from the byte array
-
-                //if I can't find another solution, I have to set a 'open from database' flag
-                //store the path of the file, and delete the said file when done
-
-                //throw some try/catches here too...
 
                 using (MemoryStream m = new MemoryStream(music.Song))
                 {
