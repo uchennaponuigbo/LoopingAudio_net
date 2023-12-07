@@ -4,6 +4,9 @@ Music player built in C# designed for looping a favorite section of your song re
 
 Music files can saved to an sqlite database to quickly load the song and the interval points of it.
 
+# Version 
+.NET Framework 4.7.8
+
 
 # What I've learned while making this
 
