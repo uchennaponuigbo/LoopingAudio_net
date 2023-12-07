@@ -1,7 +1,11 @@
 # LoopingAudio_net
 
-What I've learned while making this
+Music player built in C# designed for looping a favorite section of your song repeatedly, without the need to manually rewind.
 
-More about C# Events and how they worked.
+Music files can saved to an sqlite database to quickly load the song and the interval points of it.
 
-Working with an Audio Library
+
+# What I've learned while making this
+
+* More about C# Events and how they work.
+* Working with an Audio Library
