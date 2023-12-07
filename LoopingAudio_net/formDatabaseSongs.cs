@@ -45,6 +45,7 @@ namespace LoopingAudio_net
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             listBoxSongs.SelectedIndexChanged -= listBoxSongs_SelectedIndexChanged;
+            audioDB.SetUp(); //if the user moves/deletes/replaces the database file
             listBoxSongs.DataSource = audioDB.GetSongList();
             listBoxSongs.SelectedIndexChanged += listBoxSongs_SelectedIndexChanged;
         }
@@ -64,7 +65,7 @@ namespace LoopingAudio_net
             audioDB = new AudioDB();
             audioDB.SetUp();
             listBoxSongs.DataSource = audioDB.GetSongList();
-            listBoxSongs.SelectedIndex = -1;
+            listBoxSongs.SelectedIndex = -1;            
             listBoxSongs.SelectedIndexChanged += listBoxSongs_SelectedIndexChanged;
         }
 
@@ -83,6 +84,6 @@ namespace LoopingAudio_net
 
                 listBoxSongs.SelectedIndexChanged += listBoxSongs_SelectedIndexChanged;
             }         
-        } 
+        }
     }
 }

@@ -26,8 +26,6 @@ namespace LoopingAudio_net
             EnableOrDisableButtons(false);
 
             loopingAudioForm = this;
-
-            //MessageBox.Show(BinDebug);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -85,10 +83,12 @@ namespace LoopingAudio_net
             //I learned the basics of eventhandlers and created my own event handler that will fire 
             //when this method is called
             mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
+            mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
             if (!allowedSong)
             {
                 allowedSong = true;
                 mediaPlayer.MediaOpened -= MediaPlayer_MediaOpened;
+                mediaPlayer.MediaEnded -= MediaPlayer_MediaEnded;
                 MessageBox.Show($"The song duration cannot be longer than {MaxSongLength / 60} minutes" +
                     $"or shorter than {SmallestLoopInterval} seconds!");
                 return;
@@ -121,10 +121,17 @@ namespace LoopingAudio_net
                 allowedSong = false;
         }
 
+        private void MediaPlayer_MediaEnded(object sender, EventArgs e)
+        {
+            if(!listenForLoop)
+                btnPlayOrPause.PerformClick();
+        }
+
         private void btnClearSong_Click(object sender, EventArgs e)
         {
             //if(mediaPlayer.Source != null)
             mediaPlayer.MediaOpened -= MediaPlayer_MediaOpened;
+            mediaPlayer.MediaEnded -= MediaPlayer_MediaEnded;
             mediaPlayer.Close();
             timer.Stop();
             timer.Tick -= timer1_Tick;
@@ -304,15 +311,15 @@ namespace LoopingAudio_net
         }
 
         private void openFromDatabaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {           
+        {
             databaseSongForm = formDatabaseSongs.GetInstance();
-            databaseSongForm.Show();
+            databaseSongForm.Show();         
         }
 
         private void btnSaveToDatabase_Click(object sender, EventArgs e)
         {
             AudioDB audio = new AudioDB();
-            Music newMusic = null;
+            Music newMusic /*= null*/;
             try
             {
                 newMusic = new Music(lblSongName.Text, lblLoopStartPoint.Text, lblLoopEndPoint.Text, 
@@ -320,7 +327,7 @@ namespace LoopingAudio_net
             }
             catch(FileNotFoundException ex)
             {
-                MessageBox.Show("This file doesn't exist at path:/r/n" + ex.Message);
+                MessageBox.Show(ex.Message, "File doesn't exist at path");
                 return;
             }
             audio.InsertOrUpdateSong(newMusic);
@@ -330,6 +337,18 @@ namespace LoopingAudio_net
         private void formLoopingAudio_FormClosed(object sender, FormClosedEventArgs e)
         {
             DeleteExternalDatabaseSong();
+        }
+
+        //TODO: Dynamically change music volume when user drags the volume trackbar
+        //rather than it only updating when the user releases it
+        private void volumeBar_MouseDown(object sender, MouseEventArgs e)
+        {
+            AdjustVolume();
+        }
+
+        private void openExeLocationDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(BinDebug);
         }
     }
 }

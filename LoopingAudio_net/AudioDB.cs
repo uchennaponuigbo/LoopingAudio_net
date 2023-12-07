@@ -12,6 +12,16 @@ namespace LoopingAudio_net
         private readonly string connectionString;
         internal AudioDB()
         {
+            //the final piece of the puzzle is to figure out why the connection string is null
+            //the project will be officially complete when this happens.
+            //app.config is null on client machines. Probably because it isn't included
+            //when I included a "config file" on github, the app still complained about it being null
+
+            //My solution is to probably use the publish wizard...
+
+            //SOLUTION
+            //CD-ROM... meant removable media
+            //deploy the app to a flash drive, then go to client computer and click "Set Up" there...
             connectionString = ConfigurationManager.ConnectionStrings["songs"].ConnectionString;
         }
 

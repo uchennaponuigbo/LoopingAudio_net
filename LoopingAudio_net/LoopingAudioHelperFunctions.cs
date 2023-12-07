@@ -21,8 +21,8 @@ namespace LoopingAudio_net
 
         private const string MinSecsFormat = @"m\:ss"; //.f
         private const string DefaultStartTime = "0:00";
-        private const string DefaultEndTime = "59:59";
-        private const string DefaultMidTime = "29:59";
+        private const string DefaultEndTime = "60:00";
+        private const string DefaultMidTime = "30:00";
 
         private const string Play = "▶";
         private const string Pause = "❚❚";
@@ -106,7 +106,6 @@ namespace LoopingAudio_net
             //"Convert.ToDouble()" wasn't getting the desired output. It was always zero
             mediaPlayer.Volume = volumeBar.Value / 10.0;
             //mediaPlayer.Volume is on a scale between 0 and 1, default is 0.5
-
         }
 
         private int ParseMinSecs(string time)
@@ -196,11 +195,12 @@ namespace LoopingAudio_net
                 }
 
                 mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
-
+                mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
                 if (!allowedSong)
                 {
                     allowedSong = true;
                     mediaPlayer.MediaOpened -= MediaPlayer_MediaOpened;
+                    mediaPlayer.MediaEnded -= MediaPlayer_MediaEnded;
                     MessageBox.Show($"The song duration cannot be longer than {MaxSongLength / 60} minutes" +
                         $"or shorter than {SmallestLoopInterval} seconds!");
                     DeleteExternalDatabaseSong();

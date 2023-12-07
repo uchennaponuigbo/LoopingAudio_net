@@ -1,13 +1,13 @@
 ﻿namespace LoopingAudio_net
 {
-    internal class Music
+    internal struct Music
     {
         internal string Name { get; }
         internal byte[] Song { get; }
         internal string StartPoint { get; }  
         internal string EndPoint { get; }
 
-        internal Music() { }
+        //internal Music() { }
 
         internal Music(string name, string startLoop, string endLoop, byte[] song)
         {

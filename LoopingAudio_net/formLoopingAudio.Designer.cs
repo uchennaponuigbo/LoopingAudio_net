@@ -33,6 +33,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFromDatabaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openExeLocationDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.musicBar = new System.Windows.Forms.TrackBar();
             this.lblSongName = new System.Windows.Forms.Label();
             this.btnClearSong = new System.Windows.Forms.Button();
@@ -77,7 +78,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(779, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(779, 28);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -85,24 +86,32 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTrackToolStripMenuItem,
-            this.openFromDatabaseToolStripMenuItem});
+            this.openFromDatabaseToolStripMenuItem,
+            this.openExeLocationDirectoryToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openTrackToolStripMenuItem
             // 
             this.openTrackToolStripMenuItem.Name = "openTrackToolStripMenuItem";
-            this.openTrackToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
-            this.openTrackToolStripMenuItem.Text = "Open...";
+            this.openTrackToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
+            this.openTrackToolStripMenuItem.Text = "Open mp3...";
             this.openTrackToolStripMenuItem.Click += new System.EventHandler(this.openTrackToolStripMenuItem_Click);
             // 
             // openFromDatabaseToolStripMenuItem
             // 
             this.openFromDatabaseToolStripMenuItem.Name = "openFromDatabaseToolStripMenuItem";
-            this.openFromDatabaseToolStripMenuItem.Size = new System.Drawing.Size(242, 26);
-            this.openFromDatabaseToolStripMenuItem.Text = "Open From Database...";
+            this.openFromDatabaseToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
+            this.openFromDatabaseToolStripMenuItem.Text = "Open mp3 from Database...";
             this.openFromDatabaseToolStripMenuItem.Click += new System.EventHandler(this.openFromDatabaseToolStripMenuItem_Click);
+            // 
+            // openExeLocationDirectoryToolStripMenuItem
+            // 
+            this.openExeLocationDirectoryToolStripMenuItem.Name = "openExeLocationDirectoryToolStripMenuItem";
+            this.openExeLocationDirectoryToolStripMenuItem.Size = new System.Drawing.Size(301, 26);
+            this.openExeLocationDirectoryToolStripMenuItem.Text = "Open Form Location Directory...";
+            this.openExeLocationDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openExeLocationDirectoryToolStripMenuItem_Click);
             // 
             // musicBar
             // 
@@ -159,7 +168,7 @@
             this.lblCurrentTime.Name = "lblCurrentTime";
             this.lblCurrentTime.Size = new System.Drawing.Size(86, 32);
             this.lblCurrentTime.TabIndex = 8;
-            this.lblCurrentTime.Text = "29:59";
+            this.lblCurrentTime.Text = "30:00";
             // 
             // lblEndTime
             // 
@@ -169,7 +178,7 @@
             this.lblEndTime.Name = "lblEndTime";
             this.lblEndTime.Size = new System.Drawing.Size(86, 32);
             this.lblEndTime.TabIndex = 9;
-            this.lblEndTime.Text = "59:59";
+            this.lblEndTime.Text = "60:00";
             // 
             // label2
             // 
@@ -209,7 +218,7 @@
             this.lblLoopEndPoint.Name = "lblLoopEndPoint";
             this.lblLoopEndPoint.Size = new System.Drawing.Size(76, 29);
             this.lblLoopEndPoint.TabIndex = 13;
-            this.lblLoopEndPoint.Text = "59:59";
+            this.lblLoopEndPoint.Text = "60:00";
             // 
             // txtLoopStartPoint
             // 
@@ -247,7 +256,7 @@
             this.btnClearLoopPoints.Name = "btnClearLoopPoints";
             this.btnClearLoopPoints.Size = new System.Drawing.Size(95, 37);
             this.btnClearLoopPoints.TabIndex = 17;
-            this.btnClearLoopPoints.Text = "Clear Loops";
+            this.btnClearLoopPoints.Text = "Stop Loops";
             this.btnClearLoopPoints.UseVisualStyleBackColor = true;
             this.btnClearLoopPoints.Click += new System.EventHandler(this.btnClearLoopPoints_Click);
             // 
@@ -296,6 +305,7 @@
             this.volumeBar.Scroll += new System.EventHandler(this.volumeBar_Scroll);
             this.volumeBar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.volumeBar_KeyDown);
             this.volumeBar.KeyUp += new System.Windows.Forms.KeyEventHandler(this.volumeBar_KeyUp);
+            this.volumeBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.volumeBar_MouseDown);
             this.volumeBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.volumeBar_MouseUp);
             this.volumeBar.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.volumeBar_PreviewKeyDown);
             // 
@@ -401,6 +411,7 @@
         private System.Windows.Forms.Label lblVolumeValue;
         private System.Windows.Forms.Button btnPlayOrPause;
         private System.Windows.Forms.Button btnSaveToDatabase;
+        private System.Windows.Forms.ToolStripMenuItem openExeLocationDirectoryToolStripMenuItem;
     }
 }
 
